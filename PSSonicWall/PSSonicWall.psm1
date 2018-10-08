@@ -11,3 +11,6 @@ ForEach ($import in @($PublicFunc + $PrivateFunc)) {
         Write-Error -Message "Failed to import function $($import.fullname): $_"
     }
 }
+
+# Exporting just the Public functions
+Export-ModuleMember -Function $PublicFunc.BaseName

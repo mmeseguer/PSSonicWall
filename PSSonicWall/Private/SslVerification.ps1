@@ -16,7 +16,7 @@ function Disable-SslVerification
     }
     [TrustEverything]::SetCallback()
 }
-# Re-enables SSL verification 
+# Re-enables SSL verification
 function Enable-SslVerification
 {
     if (([System.Management.Automation.PSTypeName]"TrustEverything").Type)
