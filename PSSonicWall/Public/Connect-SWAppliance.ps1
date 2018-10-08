@@ -66,7 +66,10 @@ function Connect-SWAppliance {
 
         # Connect to the appliance
         Try {
-            Invoke-RestMethod -Uri "$($SWBaseUrl)$($Resource)" -Headers $Headers -Method $Method
+            Write-Verbose "Trying to authenticate to $SWBaseUrl."
+            Invoke-RestMethod -Uri "$($SWBaseUrl)$($Resource)" -Headers $Headers -Method $Method | Out-Null
+            # Set an environmental variable with the base URL of the connection to reuse in the rest of the PSSonicWall functions
+            $env:SWConnection = $SWBaseUrl
         }
         Catch {
             Throw $_
