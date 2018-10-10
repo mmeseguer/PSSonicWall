@@ -5,8 +5,6 @@ Function Test-SWConnection {
         Try {
             # Make a dummy request
             Invoke-RestMethod -Uri "$($env:SWConnection)config/pending" -Method Get -ContentType 'application/json' | Out-Null
-            # If we don't get an error we return $true
-            Return $true
         }
         Catch {
             # If we cannot connect to the previously established connection throw an error
