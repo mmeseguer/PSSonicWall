@@ -75,7 +75,4 @@ function Connect-SWAppliance {
             Throw $_
         }
     }
-
-    end {
-    }
 }
