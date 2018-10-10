@@ -3,7 +3,7 @@ function Connect-SWAppliance {
     param (
         # SonicWall Appliance IP or FQDN
         [Parameter(Mandatory=$true)]
-        [string]$ApplianceAddress,
+        [string]$Server,
 
         # Credential object to connect to SonicWall Appliance
         [Parameter(Mandatory=$true)]
@@ -42,10 +42,10 @@ function Connect-SWAppliance {
 
         # Add custom port to address if necessary
         if (!$Port) {
-            $Address = $ApplianceAddress
+            $Address = $Server
         }
         else {
-            $Address = "$($ApplianceAddress):$($Port)"
+            $Address = "$($Server):$($Port)"
         }
 
         # Base URL for API calls
