@@ -9,21 +9,17 @@ function ConvertFrom-AddressObject {
         [string]$Type
     )
     process {
+        # Loop through objects
         ForEach ($Object in $Objects) {
-            # Add properties based on object type
-            switch ($type) {
-                'host' {
-                    $Object | Add-Member -Name 'ip' -Type NoteProperty -Value $Object.$Type.Ip
-                }
-                'range' {
-                    $Object | Add-Member -Name 'begin' -Type NoteProperty -Value $Object.$Type.Begin
-                    $Object | Add-Member -Name 'end' -Type NoteProperty -Value $Object.$Type.End
-                }
-                'network' {
-                    $Object | Add-Member -Name 'subnet' -Type NoteProperty -Value $Object.$Type.Subnet
-                    $Object | Add-Member -Name 'mask' -Type NoteProperty -Value $Object.$Type.Mask
-                }
+            # Getting the nested properties in $Type
+            $NestedProperties = $Object.$Type.PSObject.Properties.Name
+   
+            # Flatting property $Type
+            ForEach ($NestedProperty in $NestedProperties) {
+                $Object | Add-Member -Name $NestedProperty -Type NoteProperty -Value $Object.$Type.$NestedProperty
             }
+
+            # Remove nested property 
             $Object.PSObject.Properties.Remove($type)
         }
         Return $Objects
