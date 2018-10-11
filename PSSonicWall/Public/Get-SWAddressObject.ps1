@@ -7,7 +7,10 @@ function Get-SWAddressObject {
         [string]$Type,
         # Version type for the query
         [ValidateSet('ipv4','ipv6')]
-        [string]$IpVersion ='ipv4'
+        [string]$IpVersion ='ipv4',
+        # Name of the address object
+        [Parameter(ValueFromPipelineByPropertyName)]
+        [string]$Name
     )
     begin {
         # Testing if a connection to SonicWall exists
@@ -35,14 +38,22 @@ function Get-SWAddressObject {
             # Querying for address objects
             $Result = (Invoke-RestMethod -Uri "$SWBaseUrl$Resource" -Method $Method -ContentType $ContentType).address_objects.$IpVersion | Where-Object {$_.PSobject.Properties.Name -contains $Type}
             if ($Result) {
-                ConvertFrom-AddressObject -Object $Result -Type $Type
+                $Result = ConvertFrom-AddressObject -Object $Result -Type $Type
             }
         }
         # If not just build the resource with the type
         else {
             $Resource = "$BaseResource/$Type"
             # Querying for address objects
-            (Invoke-RestMethod -Uri "$SWBaseUrl$Resource" -Method $Method -ContentType $ContentType).address_objects.$Type
+            $Result = (Invoke-RestMethod -Uri "$SWBaseUrl$Resource" -Method $Method -ContentType $ContentType).address_objects.$Type
         }
+
+        # Filter by name if introduced
+        if ($Name) {
+            $Result = $Result | Where-Object Name -eq $Name
+        }
+
+        # Return the results
+        $Result
     }
 }
