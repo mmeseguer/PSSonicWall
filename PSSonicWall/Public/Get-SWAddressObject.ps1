@@ -1,10 +1,13 @@
 function Get-SWAddressObject {
     [CmdletBinding()]
     param (
-        # SonicWall Appliance IP or FQDN
+        # Type of address object
         [Parameter(Mandatory=$true)]
-        [ValidateSet('ipv4','ipv6','mac','fqdn')]
-        [string[]]$Type
+        [ValidateSet('host','range','network','mac','fqdn')]
+        [string]$Type,
+        # Version type for the query
+        [ValidateSet('ipv4','ipv6')]
+        [string]$IpVersion ='ipv4'
     )
     begin {
         # Testing if a connection to SonicWall exists
@@ -21,15 +24,23 @@ function Get-SWAddressObject {
 
         # Getting the base URL of our connection
         $SWBaseUrl = $env:SWConnection
+
+        # Building array of ip subtypes
+        $IpSubTypes = 'host','range','network'
     }
     process {
-        # Loop through the types
-        foreach ($SubType in $Type) {
-            # Building the resource
-            $Resource = "$BaseResource/$Subtype"
-
+        # If it's an IP subtype we add the IP version to the resource
+        if ($IpSubtypes -contains $Type) {
+            $Resource = "$BaseResource/$IpVersion"
             # Querying for address objects
-            (Invoke-RestMethod -Uri "$SWBaseUrl$Resource" -Method $Method -ContentType $ContentType).address_objects.$SubType
+            $Result = (Invoke-RestMethod -Uri "$SWBaseUrl$Resource" -Method $Method -ContentType $ContentType).address_objects.$IpVersion | Where-Object {$_.PSobject.Properties.Name -contains $Type}
+            ConvertFrom-AddressObject -Object $Result -Type $Type
+        }
+        # If not just build the resource with the type
+        else {
+            $Resource = "$BaseResource/$Type"
+            # Querying for address objects
+            (Invoke-RestMethod -Uri "$SWBaseUrl$Resource" -Method $Method -ContentType $ContentType).address_objects.$Type
         }
     }
 }
