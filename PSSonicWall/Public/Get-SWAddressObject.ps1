@@ -34,7 +34,9 @@ function Get-SWAddressObject {
             $Resource = "$BaseResource/$IpVersion"
             # Querying for address objects
             $Result = (Invoke-RestMethod -Uri "$SWBaseUrl$Resource" -Method $Method -ContentType $ContentType).address_objects.$IpVersion | Where-Object {$_.PSobject.Properties.Name -contains $Type}
-            ConvertFrom-AddressObject -Object $Result -Type $Type
+            if ($Result) {
+                ConvertFrom-AddressObject -Object $Result -Type $Type
+            }
         }
         # If not just build the resource with the type
         else {
