@@ -2,7 +2,7 @@ function Get-SWAddressGroup {
     [CmdletBinding()]
     param (
         # Version type for the query
-        [Parameter(Mandatory=$true,ParameterSetName='byIpVersion')]
+        [Parameter(ParameterSetName='byIpVersion')]
         [ValidateSet('ipv4','ipv6')]
         [string]$IpVersion,
         # Name of the address object
@@ -28,13 +28,23 @@ function Get-SWAddressGroup {
     process {
         switch ($PSCmdlet.ParameterSetName){
             'byIpVersion' {
-                # Build the resource
-                $Resource = "$BaseResource/$IpVersion"
-                # Query for address groups
-                $Result = (Invoke-RestMethod -Uri "$SWBaseUrl$Resource" -Method $Method -ContentType $ContentType).address_groups.$IpVersion
-                # Flatting object
-                $Result = ConvertFrom-AddressGroup -Object $Result -IpVersion $IpVersion
-                $Result
+                # Build the $IpVersions variable to loop through versions if no $IpVersion configured
+                If (!$IpVersion) {
+                    $IpVersions = @('ipv4','ipv6')
+                }
+                else {
+                    $IpVersions = $IpVersion
+                }
+                # Loop through $IpVersions
+                foreach ($IpVersion in $IpVersions) {
+                    # Build the resource
+                    $Resource = "$BaseResource/$IpVersion"
+                    # Query for address groups
+                    $Result = (Invoke-RestMethod -Uri "$SWBaseUrl$Resource" -Method $Method -ContentType $ContentType).address_groups.$IpVersion
+                    # Flatting object
+                    $Result = ConvertFrom-AddressGroup -Object $Result -IpVersion $IpVersion
+                    $Result
+                }
             }
             'byName' {
                 # Declaration of the IP versions
