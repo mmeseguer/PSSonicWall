@@ -84,7 +84,7 @@ function Get-SWAddressObject {
             }
             'byInputObject' {
                 # Getting the name of the object
-                $Names = $RelatedObject | Select-Object -ExpandProperty 'object_Name'
+                $Names = $RelatedObject.object_Name
                 # Loop through Names names
                 foreach ($Name in $Names) {
                     # Declaration of the Address Object types
