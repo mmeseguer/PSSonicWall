@@ -9,7 +9,7 @@ install:
 ###### Configure build ######
 build: false
 
-###### Test module ######
+###### Test module  ######
 test_script:
   - ps: . .\AppVeyor\AppVeyorTest.ps1
 
