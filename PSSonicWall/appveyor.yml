@@ -1,0 +1,18 @@
+###### Environment configuration ######
+version: '0.{build}'
+os: Visual Studio 2017
+
+# Install environment
+install:
+  - ps: . .\AppVeyor\AppVeyorInstall.ps1
+
+# Configure build
+build: false
+
+# Test module
+test_script:
+  - ps: . .\AppVeyor\AppVeyorTest.ps1
+
+# Deploy module
+deploy_script:
+  - ps: . .\AppVeyor\AppveyorDeploy.ps1
