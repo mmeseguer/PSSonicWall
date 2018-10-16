@@ -54,7 +54,6 @@ function Get-SWAddressGroup {
                 foreach ($IpVersion in $IpVersions) {
                     # Build of the resource
                     $Resource = "$BaseResource/$IpVersion/name/$Name"
-                    "$SWBaseUrl$Resource"
                     # Try to make the request. If it works we exit the loop, if it fails it means that it doesn't exist in this $ObjectType, so we continue.
                     Try {
                         $Result = (Invoke-RestMethod -Uri "$SWBaseUrl$Resource" -Method $Method -ContentType $ContentType).address_group.$IpVersion
