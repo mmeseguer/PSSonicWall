@@ -26,7 +26,7 @@ function Get-SWZone {
             $Resource = "$BaseResource/name/$Name"
             $Result = (Invoke-RestMethod -Uri "$SWBaseUrl$Resource" -Method $Method -ContentType $ContentType).zone
         }
-        # If there are no parameters query for all service groups
+        # If there are no parameters query for all zones
         else {
             $Resource = $BaseResource
             $Result = (Invoke-RestMethod -Uri "$SWBaseUrl$Resource" -Method $Method -ContentType $ContentType).$BaseResource
