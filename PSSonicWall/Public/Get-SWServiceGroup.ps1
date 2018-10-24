@@ -1,7 +1,7 @@
 function Get-SWServiceGroup {
     [CmdletBinding()]
     param (
-        # Name of the address object
+        # Name of the service group
         [string]$Name
     )
     begin {
