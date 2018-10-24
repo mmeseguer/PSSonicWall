@@ -8,10 +8,8 @@ if ($Modules.count -gt 0) {
     foreach ($module in $modules) {
       Context “Testing Module '$($module.FullName)'” {
         foreach ($rule in $rules) {
-          If ($rule -ne 'Get-SWDns' -and $rule.RuleName -ne 'PSUseSingularNouns') {
-            It “passes the PSScriptAnalyzer Rule $rule“ {
-              (Invoke-ScriptAnalyzer -Path $module.FullName -IncludeRule $rule.RuleName ).Count | Should Be 0
-            }
+          It “passes the PSScriptAnalyzer Rule $rule“ {
+            (Invoke-ScriptAnalyzer -Path $module.FullName -IncludeRule $rule.RuleName ).Count | Should Be 0
           }
         }
       }
@@ -24,7 +22,7 @@ if ($Scripts.count -gt 0) {
       Context “Testing Script '$($script.FullName)'” {
         foreach ($rule in $rules) {
           It “passes the PSScriptAnalyzer Rule $rule“ {
-            if (-not ($module.BaseName -match 'AppVeyor') ) {
+            if (-not ($module.BaseName -match 'AppVeyor') -and $script.BaseName -ne 'Get-SWDns' -and $rule.RuleName -ne 'PSUseSingularNouns') {
               (Invoke-ScriptAnalyzer -Path $script.FullName -IncludeRule $rule.RuleName ).Count | Should Be 0
             }
           }
