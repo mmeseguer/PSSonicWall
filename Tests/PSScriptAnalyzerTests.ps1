@@ -8,8 +8,10 @@ if ($Modules.count -gt 0) {
     foreach ($module in $modules) {
       Context “Testing Module '$($module.FullName)'” {
         foreach ($rule in $rules) {
-          It “passes the PSScriptAnalyzer Rule $rule“ {
-            (Invoke-ScriptAnalyzer -Path $module.FullName -IncludeRule $rule.RuleName ).Count | Should Be 0
+          If ($rule -ne 'Get-SWDns' -and $rule.RuleName -ne 'PSUseSingularNouns') {
+            It “passes the PSScriptAnalyzer Rule $rule“ {
+              (Invoke-ScriptAnalyzer -Path $module.FullName -IncludeRule $rule.RuleName ).Count | Should Be 0
+            }
           }
         }
       }
