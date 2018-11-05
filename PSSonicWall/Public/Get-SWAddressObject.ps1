@@ -69,6 +69,12 @@ function Get-SWAddressObject {
                     # Try to make the request. If it works we exit the loop, if it fails it means that it doesn't exist in this $ObjectType, so we continue.
                     Try {
                         $Result = (Invoke-RestMethod -Uri "$SWBaseUrl$Resource" -Method $Method -ContentType $ContentType).address_object.$ObjectType
+                        # Flatten object if it's an IP subtype
+                        $IpSubTypes | ForEach-Object {
+                            If ($Result.PSObject.Properties.Name -contains $_) {
+                                $Result = ConvertFrom-AddressObject -Object $Result -Type $_
+                            }
+                        }
                         Break
                     }
                     Catch {
@@ -96,6 +102,12 @@ function Get-SWAddressObject {
                         # Try to make the request. If it works we exit the loop, if it fails it means that it doesn't exist in this $ObjectType, so we continue.
                         Try {
                             $Result = (Invoke-RestMethod -Uri "$SWBaseUrl$Resource" -Method $Method -ContentType $ContentType).address_object.$ObjectType
+                            # Flatten object if it's an IP subtype
+                            $IpSubTypes | ForEach-Object {
+                                If ($Result.PSObject.Properties.Name -contains $_) {
+                                    $Result = ConvertFrom-AddressObject -Object $Result -Type $_
+                                }
+                            }
                             $Result
                             Break
                         }
