@@ -42,9 +42,6 @@ function Get-SWAddressObject {
                     $Resource = "$BaseResource/$IpVersion"
                     # Querying for address objects
                     $Result = (Invoke-RestMethod -Uri "$SWBaseUrl$Resource" -Method $Method -ContentType $ContentType).address_objects.$IpVersion | Where-Object {$_.PSobject.Properties.Name -contains $Type}
-                    if ($Result) {
-                        $Result = ConvertFrom-AddressObject -Object $Result -Type $Type
-                    }
                 }
                 # If not just build the resource with the type
                 else {
@@ -69,12 +66,6 @@ function Get-SWAddressObject {
                     # Try to make the request. If it works we exit the loop, if it fails it means that it doesn't exist in this $ObjectType, so we continue.
                     Try {
                         $Result = (Invoke-RestMethod -Uri "$SWBaseUrl$Resource" -Method $Method -ContentType $ContentType).address_object.$ObjectType
-                        # Flatten object if it's an IP subtype
-                        $IpSubTypes | ForEach-Object {
-                            If ($Result.PSObject.Properties.Name -contains $_) {
-                                $Result = ConvertFrom-AddressObject -Object $Result -Type $_
-                            }
-                        }
                         Break
                     }
                     Catch {
@@ -90,7 +81,8 @@ function Get-SWAddressObject {
             }
             'byInputObject' {
                 # Getting the name of the object
-                $Names = $RelatedObject.object_Name
+                $IpVersion = $RelatedObject.address_object.PSObject.Properties.Name
+                $Names = $RelatedObject.address_object.$IpVersion.name
                 # Loop through Names names
                 foreach ($Name in $Names) {
                     # Declaration of the Address Object types
@@ -102,12 +94,6 @@ function Get-SWAddressObject {
                         # Try to make the request. If it works we exit the loop, if it fails it means that it doesn't exist in this $ObjectType, so we continue.
                         Try {
                             $Result = (Invoke-RestMethod -Uri "$SWBaseUrl$Resource" -Method $Method -ContentType $ContentType).address_object.$ObjectType
-                            # Flatten object if it's an IP subtype
-                            $IpSubTypes | ForEach-Object {
-                                If ($Result.PSObject.Properties.Name -contains $_) {
-                                    $Result = ConvertFrom-AddressObject -Object $Result -Type $_
-                                }
-                            }
                             $Result
                             Break
                         }
