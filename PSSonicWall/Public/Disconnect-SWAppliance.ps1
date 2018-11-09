@@ -1,4 +1,16 @@
 function Disconnect-SWAppliance {
+    <#
+    .SYNOPSIS
+    Disconnect from a previously connected SonicWall appliance.
+    
+    .DESCRIPTION
+    Disconnects a previously stablished connection from the Connect-SWAppliance function.
+    
+    .EXAMPLE
+    Disconnect-SWAppliance
+    Disconnects from the SonicWall appliance.
+
+    #>
     begin {
         # Declaring resource of the function
         $Resource = 'auth'

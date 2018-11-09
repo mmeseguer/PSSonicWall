@@ -1,4 +1,36 @@
 function Connect-SWAppliance {
+    <#
+    .SYNOPSIS
+    Connect to a SonicWall appliance.
+    
+    .DESCRIPTION
+    Connects to a SonicWall appliance using the SonicOS REST API.
+    
+    .PARAMETER Server
+    IP or DNS name of the SonicWall appliance.
+    
+    .PARAMETER Credential
+    PSCredential to use for the authentication.
+    
+    .PARAMETER Port
+    Port to connect to the SonicOS API.
+    
+    .PARAMETER Insecure
+    When set Connect-SWAppliance try to make the connection using HTTP instead of HTTPS.
+    
+    .EXAMPLE
+    Connect-SWAppliance -Server 192.168.168.168 
+    Basic use, connects to 192.168.168.168 SonicWall appliance. If there's not a -Credential parameter the function asks for it.
+
+    .EXAMPLE
+    Connect-SWAppliance -Server 192.168.168.168 -Credential $credential -Port 4433
+    Connects to 192.168.168.168 SonicWall appliance using a prebuild PSCredential object using port 4433.
+
+    .EXAMPLE
+    Connect-SWAppliance -Server 192.168.168.168 -Credential $credential -Insecure:$true
+    Insecure mode, only for test purposes. Tries to connect to SonicWall appliance using HTTP.
+    
+    #>
     [CmdletBinding()]
     param (
         # SonicWall Appliance IP or FQDN
