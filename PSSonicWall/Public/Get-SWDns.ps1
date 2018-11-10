@@ -1,4 +1,15 @@
 function Get-SWDns {
+    <#
+    .SYNOPSIS
+    Retrieve DNS configuration from SonicWall appliance.
+
+    .DESCRIPTION
+    This function gets DNS configuration from a SonicWall appliance.
+
+    .EXAMPLE
+    Get-SWDns
+    Gets the SonicWall appliance DNS configuration.
+    #>
     [CmdletBinding()]
     param (
 

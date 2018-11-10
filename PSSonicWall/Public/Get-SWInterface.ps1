@@ -1,4 +1,22 @@
 function Get-SWInterface {
+    <#
+    .SYNOPSIS
+    Retrieve interfaces from SonicWall appliance.
+
+    .DESCRIPTION
+    This function gets the interfaces and its configuration from a SonicWall appliance.
+
+    .PARAMETER Name
+    Name of the object to query.
+
+    .EXAMPLE
+    Get-SWInterface
+    Basic usage. Gets all the interfaces from a SonicWall appliance.
+
+    .EXAMPLE
+    Get-SWInterface -Name X0
+    Gets the interface X0.
+    #>
     [CmdletBinding()]
     param (
         # Name of the interface

@@ -1,4 +1,22 @@
 function Get-SWServiceGroup {
+    <#
+    .SYNOPSIS
+    Retrieve Service Groups from SonicWall appliance.
+
+    .DESCRIPTION
+    This function gets the Service Groups from a SonicWall appliance.
+
+    .PARAMETER Name
+    Name of the object to query.
+
+    .EXAMPLE
+    Get-SWServiceGroup
+    Basic usage. Gets all the Service Groups from a SonicWall appliance.
+
+    .EXAMPLE
+    Get-SWServiceGroup -Name test
+    Gets the Service Group named 'test'
+    #>
     [CmdletBinding()]
     param (
         # Name of the service group

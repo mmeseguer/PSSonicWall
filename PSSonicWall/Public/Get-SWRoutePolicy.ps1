@@ -1,4 +1,22 @@
 function Get-SWRoutePolicy {
+    <#
+    .SYNOPSIS
+    Retrieve Routing Policies from SonicWall appliance.
+
+    .DESCRIPTION
+    This function gets the Routing Policies from a SonicWall appliance.
+
+    .PARAMETER IpVersion
+    Ip version of the objects to query. You can select ipv4 (default), ipv6 and all.
+
+    .EXAMPLE
+    Get-SWRoutePolicy
+    Basic usage. Gets all of the ipv4 Routing Policies from a SonicWall appliance.
+
+    .EXAMPLE
+    Get-SWRoutePolicy -IpVersion all
+    Gets all of the Routing Policies from a SonicWall appliance.
+    #>
     [CmdletBinding()]
     param (
         # Version type for the query

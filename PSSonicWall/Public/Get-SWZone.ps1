@@ -1,4 +1,22 @@
 function Get-SWZone {
+    <#
+    .SYNOPSIS
+    Retrieve Zones from SonicWall appliance.
+
+    .DESCRIPTION
+    This function gets the Zones from a SonicWall appliance.
+
+    .PARAMETER Name
+    Name of the object to query.
+
+    .EXAMPLE
+    Get-SWZone
+    Basic usage. Gets all the Zones from a SonicWall appliance.
+
+    .EXAMPLE
+    Get-SWZone -Name test
+    Gets the Zone named 'test'
+    #>
     [CmdletBinding()]
     param (
         # Name of the zone

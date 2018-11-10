@@ -1,4 +1,37 @@
 function Get-SWAddressObject {
+    <#
+    .SYNOPSIS
+    Retrieve Address Objects from SonicWall appliance.
+
+    .DESCRIPTION
+    This function gets Address Objects from a Sonicwall appliance.
+    It can use an object piped from Get-SWAddressGroup to get the detail from the address objects of an address group.
+
+    .PARAMETER Type
+    Address Object type. It can be 'host','range','network','mac' or 'fqdn'.
+
+    .PARAMETER IpVersion
+    Ip version of the objects to query. You can select ipv4 (default) and ipv6.
+
+    .PARAMETER Name
+    Name of the object to query.
+
+    .PARAMETER RelatedObject
+    Object retrieved by Get-SWAddressGroup.
+
+    .EXAMPLE
+    Get-SWAddressObject -Type host
+    Retrieve all the 'host' Address Objects.
+
+    .EXAMPLE
+    Get-SWAddressObject -Name test
+    Retrieves 'test' Address Object.
+
+    .EXAMPLE
+    Get-SWAddressGroup -Name test | Get-SWAddressObject
+    Retrieve the Address Objects contained in 'test Address Group.
+
+    #>
     [CmdletBinding()]
     param (
         # Type of address object

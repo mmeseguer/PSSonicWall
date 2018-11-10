@@ -1,4 +1,23 @@
 function Get-SWAccessRule {
+    <#
+    .SYNOPSIS
+    Retrieve Access Rules from SonicWall appliance.
+
+    .DESCRIPTION
+    This function gets Access Rules from a SonicWall appliance.
+
+    .PARAMETER IpVersion
+    Ip version of the objects to query. You can select ipv4 (default), ipv6 and all.
+
+    .EXAMPLE
+    Get-SWAccessRule
+    Basic usage. Prints all ipv4 Access Rules from the connected SonicWall appliance.
+
+    .EXAMPLE
+    Get-SWAccessRule -IpVersion ipv6
+    Prints all ipv6 Access Rules from the connected SonicWall appliance.
+
+    #>
     [CmdletBinding()]
     param (
         # Version type for the query

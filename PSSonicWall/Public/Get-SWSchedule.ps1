@@ -1,4 +1,22 @@
 function Get-SWSchedule {
+    <#
+    .SYNOPSIS
+    Retrieve Schedules from SonicWall appliance.
+
+    .DESCRIPTION
+    This function gets the Schedules from a SonicWall appliance.
+
+    .PARAMETER Name
+    Name of the object to query.
+
+    .EXAMPLE
+    Get-SWSchedule
+    Basic usage. Gets all the schedules from a SonicWall appliance.
+
+    .EXAMPLE
+    Get-SWSchedule -Name test
+    Gets the schedule named 'test'
+    #>
     [CmdletBinding()]
     param (
         # Name of the schedule

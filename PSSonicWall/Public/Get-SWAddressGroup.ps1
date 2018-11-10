@@ -1,10 +1,37 @@
 function Get-SWAddressGroup {
+    <#
+    .SYNOPSIS
+    Retrieve Address Groups from SonicWall appliance.
+
+    .DESCRIPTION
+    This function gets Address Groups from a Sonicwall appliance.
+    The result from this function can be piped to Get-SWAddressObject to get the detail from the address objects of an address group.
+
+    .PARAMETER IpVersion
+    Ip version of the objects to query. You can select ipv4 (default), ipv6 and all.
+
+    .PARAMETER Name
+    Name of the object to query.
+
+    .EXAMPLE
+    Get-SwAddressGroup
+    Basic usage. Retrieves all the ipv4 Address Groups.
+
+    .EXAMPLE
+    Get-SwAddressGroup -IpVersion all
+    Retrieves all the Address Groups.
+
+    .EXAMPLE
+    Get-SwAddressGroup -Name test
+    Retrieves 'test' Address Group.
+
+    #>
     [CmdletBinding()]
     param (
         # Version type for the query
         [Parameter(ParameterSetName='byIpVersion')]
-        [ValidateSet('ipv4','ipv6')]
-        [string]$IpVersion,
+        [ValidateSet('ipv4','ipv6','all')]
+        [string]$IpVersion='ipv4',
         # Name of the address object
         [Parameter(Mandatory=$true,ParameterSetName='byName')]
         [string]$Name
@@ -29,7 +56,7 @@ function Get-SWAddressGroup {
         switch ($PSCmdlet.ParameterSetName){
             'byIpVersion' {
                 # Build the $IpVersions variable to loop through versions if no $IpVersion configured
-                If (!$IpVersion) {
+                If ($IpVersion -eq 'all') {
                     $IpVersions = @('ipv4','ipv6')
                 }
                 else {
