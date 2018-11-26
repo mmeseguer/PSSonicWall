@@ -9,19 +9,12 @@ First of all you must **activate the SonicOS API** in your SonicWall appliance. 
 
 To activate the SonicOS API you can use the GUI or the CLI (instructions taken from the [SonicOS API Reference](https://www.sonicwall.com/SonicWall.com/files/fb/fb551d7e-05cf-4613-a154-2131271ccadb.pdf)).
 
-- GUI method:
-    - Navigate to **MANAGE | Network > Appliance | Base Settings**.
-    - Scroll to the **SonicOS API** section.
-    - Select **Enable SonicOS API**.
-    - Select **Enable RFC-2617 HTTP Basic Access authentication**.
-    - Click **Accept**.
-
-- CLI method:
-```
-config(<serial number>)# administration
-(config-administration)# sonicos-api
-(config-administration)# commit
-```
+GUI method:
+  - Navigate to **MANAGE | Network > Appliance | Base Settings**.
+  - Scroll to the **SonicOS API** section.
+  - Select **Enable SonicOS API**.
+  - Select **Enable RFC-2617 HTTP Basic Access authentication**.
+  - Click **Accept**.
 
 # Connecting and disconnecting to a SonicWall Appliance
 
