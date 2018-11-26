@@ -13,6 +13,7 @@ To activate the SonicOS API you can use the GUI or the CLI (instructions taken f
     - Navigate to **MANAGE | Network > Appliance | Base Settings**.
     - Scroll to the **SonicOS API** section.
     - Select **Enable SonicOS API**.
+    - Select **Enable RFC-2617 HTTP Basic Access authentication**
     - Click **Accept**.
 
 - CLI method:
