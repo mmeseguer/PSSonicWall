@@ -11,7 +11,7 @@ function Remove-SWPendingChange {
     Remove all the changes in the staging area pending of commit.
 
     #>
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess, ConfirmImpact='Low')]
     param (
     )
 
@@ -34,8 +34,10 @@ function Remove-SWPendingChange {
     process {
         # Query for pending changes
         $Resource = "$BaseResource/pending"
-        $Result = Invoke-RestMethod -Uri "$SWBaseUrl$Resource" -Method $Method -ContentType $ContentType
 
+        if ($PSCmdlet.ShouldProcess('Delete current changes in staging area.')) {
+            $Result = Invoke-RestMethod -Uri "$SWBaseUrl$Resource" -Method $Method -ContentType $ContentType
+        }
         # Return the result
         $Result
     }
