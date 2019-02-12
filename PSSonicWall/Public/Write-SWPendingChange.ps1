@@ -1,4 +1,4 @@
-function Set-SWPendingChange {
+function Write-SWPendingChange {
     <#
     .SYNOPSIS
     Apply's pending changes from SonicWall Appliance.
@@ -7,7 +7,7 @@ function Set-SWPendingChange {
     This function apply's the changes in the staging area from a SonicWall appliance.
 
     .EXAMPLE
-    Set-SWPendingChange
+    Write-SWPendingChange
     Apply all the changes in the staging area pending of commit.
 
     #>
