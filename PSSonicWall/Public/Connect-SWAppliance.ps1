@@ -45,7 +45,10 @@ function Connect-SWAppliance {
         [int32]$Port,
 
         # Connect using HTTP
-        [boolean]$Insecure=$false
+        [boolean]$Insecure=$false,
+
+        # Use digest authentication instead of basic.
+        [switch]$DigestAuth
     )
 
     begin {
@@ -84,22 +87,26 @@ function Connect-SWAppliance {
         $BaseApiUrl = '/api/sonicos/'
         $SWBaseUrl = "$($Protocol)://$($Address)$($BaseApiUrl)"
 
-        # Generate the credential pair
-        $CredPair =  "$($Credential.UserName):$($Credential.GetNetworkCredential().Password)"
-        $EncodedCredPair = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes($CredPair))
-
-        # Remove variable with plain text password
-        Remove-Variable -Name CredPair
-
-        # Generate headers for the request
-        $Headers = @{
-            Authorization = "Basic $EncodedCredPair"
+        $headers = @{
+            "Content-type"  = "application/json"
+            "Accept"        = "application/json"
+        }
+        $parameters = @{
+            SkipCertificateCheck    = $true
+            Method                  = $Method
+            Uri                     = "$($SWBaseUrl)$($Resource)"
+            Headers                 = $headers
+        }
+        if (!$DigestAuth) {
+            $parameters['Credential'] = $Credential
+        } else {
+            $parameters['Body'] = Get-SWdigest -device $Server -credentials $Credential
         }
 
         # Connect to the appliance
         Try {
             Write-Verbose "Trying to authenticate to $SWBaseUrl."
-            Invoke-RestMethod -Uri "$($SWBaseUrl)$($Resource)" -Headers $Headers -Method $Method | Out-Null
+            Invoke-RestMethod @parameters
             # Set an environmental variable with the base URL of the connection to reuse in the rest of the PSSonicWall functions
             $env:SWConnection = $SWBaseUrl
         }
